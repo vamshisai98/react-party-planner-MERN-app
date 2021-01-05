@@ -3,12 +3,14 @@ import Guest from './Guest';
 import GuestContext from '../../context/guestContext/guestContext';
 
 const Guests = () => {
-  const { guests } = useContext(GuestContext);
+  const { guests, filterGuest, search } = useContext(GuestContext);
   return (
     <div className='guests'>
-      {guests.map((guest) => (
-        <Guest key={guest.id} guest={guest} />
-      ))}
+      {search !== null
+        ? search.map((guest) => <Guest key={guest.id} guest={guest} />)
+        : guests
+            .filter((guest) => !filterGuest || guest.isconfirmed)
+            .map((guest) => <Guest key={guest.id} guest={guest} />)}
     </div>
   );
 };
